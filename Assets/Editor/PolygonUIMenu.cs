@@ -14,6 +14,7 @@ public static class PolygonUIMenu
         circleImgGo.transform.SetParent(selectGo.transform);
         circleImgGo.AddComponent<CircleImage>();
         circleImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
+        Undo.RegisterCreatedObjectUndo(circleImgGo, "new CircleImage");
 
         var circleCollider = circleImgGo.GetComponent<CircleCollider2D>();
         circleCollider.isTrigger = true;
@@ -30,6 +31,7 @@ public static class PolygonUIMenu
         circleRawImgGo.transform.SetParent(selectGo.transform);
         circleRawImgGo.AddComponent<CircleRawImage>();
         circleRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
+        Undo.RegisterCreatedObjectUndo(circleRawImgGo, "new CircleRawImage");
 
         var circleCollider = circleRawImgGo.GetComponent<CircleCollider2D>();
         circleCollider.isTrigger = true;
@@ -46,6 +48,7 @@ public static class PolygonUIMenu
         polygonImgGo.transform.SetParent(selectGo.transform);
         polygonImgGo.AddComponent<PolygonImage>();
         polygonImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
+        Undo.RegisterCreatedObjectUndo(polygonImgGo, "new PolygonImage");
 
         var circleCollider = polygonImgGo.GetComponent<PolygonCollider2D>();
         circleCollider.isTrigger = true;
@@ -62,6 +65,7 @@ public static class PolygonUIMenu
         polygonRawImgGo.transform.SetParent(selectGo.transform);
         polygonRawImgGo.AddComponent<PolygonRawImage>();
         polygonRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
+        Undo.RegisterCreatedObjectUndo(polygonRawImgGo, "new PolygonRawImage");
 
         var circleCollider = polygonRawImgGo.GetComponent<PolygonCollider2D>();
         circleCollider.isTrigger = true;
@@ -78,6 +82,7 @@ public static class PolygonUIMenu
         uiPolygon.transform.SetParent(selectGo.transform);
         uiPolygon.AddComponent<UIPolygon>();
         uiPolygon.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
+        Undo.RegisterCreatedObjectUndo(uiPolygon, "new UI Polygon");
 
         Selection.activeGameObject = uiPolygon;
     }
