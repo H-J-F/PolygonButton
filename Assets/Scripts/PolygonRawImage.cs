@@ -32,8 +32,8 @@ namespace UIExtensions
         {
             base.Reset();
             var size = rectTransform.sizeDelta;
-            float w = (size.x * 0.5f);
-            float h = (size.y * 0.5f);
+            float w = size.x * 0.5f - 1f;
+            float h = size.y * 0.5f - 1f;
             Polygon.points = new[]
             {
                 new Vector2(-w,-h),
