@@ -16,11 +16,11 @@ https://github.com/CiaccoDavide/Unity-UI-Polygon
 
 只需在Canvas下创建对应的UI控件即可，支持3D UI，支持Mask、RectMask2D裁剪。
 
-![image-20220514003622269](H:\Unity3D Projects\PolygonButton\Docs\Images\image-20220514003622269.png)
+![image-20220514003622269](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/image-20220514003622269.png)
 
 创建的UI Polygon，如果要加上不规则的射线检测，需要自己手动添加PolygonCollider2D组件，点击UI Polygon组件Inspector面板上的Adapt Polygon按钮，可以让PolygonCollider2D自动适应到正多边形的顶点上
 
-![image-20220514004101651](H:\Unity3D Projects\PolygonButton\Docs\Images\image-20220514004101651.png)
+![image-20220514004101651](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/image-20220514004101651.png)
 
 *可以看到PolygonCollider2D的顶点已经贴合到UI Polygon的顶点*
 
