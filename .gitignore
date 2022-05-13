@@ -1,0 +1,17 @@
+[Ll]ibrary/
+![Ll]ibrary/PackageCache/
+![Ll]ibrary/ScriptAssemblies/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+*.user
+*.suo
+*.tmp
+*.userprefs
+*.pidb
+*.pidb.meta
+*.log
+/Assets/AssetGraph/AssetBundles/Cache/TemporalSettingFiles/AssetReferenceDB.asset
+/Logs/ApiUpdaterCheck.txt
+/Logs/AssetImportWorker0-prev.log
