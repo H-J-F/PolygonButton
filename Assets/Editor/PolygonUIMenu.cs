@@ -18,9 +18,6 @@ public static class PolygonUIMenu
         circleImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(circleImgGo, "new CircleImage");
 
-        var circleCollider = circleImgGo.GetComponent<CircleCollider2D>();
-        circleCollider.isTrigger = true;
-
         Selection.activeGameObject = circleImgGo;
     }
 
@@ -36,9 +33,6 @@ public static class PolygonUIMenu
         circleRawImgGo.AddComponent<CircleRawImage>();
         circleRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(circleRawImgGo, "new CircleRawImage");
-
-        var circleCollider = circleRawImgGo.GetComponent<CircleCollider2D>();
-        circleCollider.isTrigger = true;
 
         Selection.activeGameObject = circleRawImgGo;
     }
@@ -56,9 +50,6 @@ public static class PolygonUIMenu
         polygonImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(polygonImgGo, "new PolygonImage");
 
-        var circleCollider = polygonImgGo.GetComponent<PolygonCollider2D>();
-        circleCollider.isTrigger = true;
-
         Selection.activeGameObject = polygonImgGo;
     }
 
@@ -74,9 +65,6 @@ public static class PolygonUIMenu
         polygonRawImgGo.AddComponent<PolygonRawImage>();
         polygonRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(polygonRawImgGo, "new PolygonRawImage");
-
-        var circleCollider = polygonRawImgGo.GetComponent<PolygonCollider2D>();
-        circleCollider.isTrigger = true;
 
         Selection.activeGameObject = polygonRawImgGo;
     }

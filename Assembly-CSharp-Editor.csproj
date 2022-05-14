@@ -58,6 +58,11 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\UIPolygonEditor.cs" />
     <Compile Include="Assets\Editor\PolygonUIMenu.cs" />
+    <Compile Include="Assets\Editor\CircleImageEditor.cs" />
+    <Compile Include="Assets\Editor\CircleRawImageEditor.cs" />
+    <Compile Include="Assets\Editor\EditorUtil.cs" />
+    <Compile Include="Assets\Editor\PolygonRawImageEditor.cs" />
+    <Compile Include="Assets\Editor\PolygonImageEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

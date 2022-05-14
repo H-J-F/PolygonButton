@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,25 +8,30 @@ namespace UIExtensions
 {
     [RequireComponent(typeof(CanvasRenderer))]
     [AddComponentMenu("UI/Extensions/UI Polygon")]
+    [CanEditMultipleObjects]
     public class UIPolygon : MaskableGraphic, ICanvasRaycastFilter
     {
         [SerializeField]
         Texture m_Texture;
+
         public bool fill = true;
+        public bool useCollider = false;
         public float thickness = 5;
+
         [Range(3, 360)]
         public int sides = 3;
+
         [Range(0, 360)]
         public float rotation = 0;
+
         [Range(0, 1)]
         public float[] VerticesDistances = new float[3];
-        private float size = 0;
 
+        private float size = 0;
         private UIVertex[] vbo = new UIVertex[4];
 
         private List<Vector2[]> posList = null;
-
-        public List<Vector2[]> PosList
+        private List<Vector2[]> PosList
         {
             get
             {
@@ -37,8 +43,7 @@ namespace UIExtensions
         }
 
         private List<Vector2[]> uvList = null;
-
-        public List<Vector2[]> UvList
+        private List<Vector2[]> UvList
         {
             get
             {
@@ -49,26 +54,22 @@ namespace UIExtensions
             }
         }
 
-        private PolygonCollider2D _polygon;
-
-        private PolygonCollider2D Polygon
+        [SerializeField]
+        private Vector2[] points;
+        public Vector2[] Points
         {
             get
             {
-                if (_polygon == null)
-                    _polygon = GetComponent<PolygonCollider2D>();
+                if (points == null || points.Length != sides)
+                {
+                    points = new Vector2[sides];
+                }
 
-                return _polygon;
+                return points;
             }
         }
 
-        public override Texture mainTexture
-        {
-            get
-            {
-                return m_Texture == null ? s_WhiteTexture : m_Texture;
-            }
-        }
+        public override Texture mainTexture => m_Texture == null ? s_WhiteTexture : m_Texture;
 
         public Texture texture
         {
@@ -172,7 +173,7 @@ namespace UIExtensions
             GetSize();
             Vector2 pivot = rectTransform.pivot;
 
-            // last vertex is also the first!
+            // last vertex is also the first!（第一个节点也是最后一个节点）
             VerticesDistances[vertices - 1] = VerticesDistances[0];
             
             for (int i = 0; i < vertices; i++)
@@ -203,6 +204,7 @@ namespace UIExtensions
                 }
                 prevX = PosList[i][1];
                 prevY = PosList[i][2];
+                Points[i % sides] = PosList[i][1];
                 SetVbo(PosList[i], UvList[i]);
                 vh.AddUIVertexQuad(vbo);
             }
@@ -210,30 +212,16 @@ namespace UIExtensions
 
         public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
-            if (Polygon == null)
+            if (!useCollider)
                 return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
 
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, screenPoint, eventCamera, out var point);
-            return Polygon.OverlapPoint(point);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var point);
+            return Overlap(point);
         }
 
-#if UNITY_EDITOR
-
-        public void AdaptPolygon()
+        public bool Overlap(Vector2 target)
         {
-            base.Reset();
-
-            if (Polygon == null) return;
-
-            var array = new Vector2[sides];
-            for (int i = 0; i < sides; i++)
-            {
-                array[i] = PosList[i + 1][1];
-            }
-
-            Polygon.points = array;
+            return Util.PolygonOverlap(Points, target);
         }
-
-#endif
     }
 }

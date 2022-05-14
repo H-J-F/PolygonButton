@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\PolygonRawImage.cs" />
     <Compile Include="Assets\Scripts\UIPolygon.cs" />
     <Compile Include="Assets\Scripts\CircleRawImage.cs" />
+    <Compile Include="Assets\Scripts\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

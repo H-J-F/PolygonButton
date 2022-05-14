@@ -5,25 +5,49 @@ using UnityEngine.UI;
 namespace UIExtensions
 {
     [AddComponentMenu("UI/Extensions/PolygonImage")]
-    [RequireComponent(typeof(PolygonCollider2D))]
     public class PolygonImage : Image
     {
-        private PolygonCollider2D polygon = null;
+        [SerializeField]
+        private Vector2[] points = new Vector2[4];
 
-        public PolygonCollider2D Polygon
+        public Vector2[] Points
         {
             get
             {
-                if (null == polygon) polygon = GetComponent<PolygonCollider2D>();
-                return polygon;
+                if (points == null || points.Length < 3)
+                {
+                    var temp = points;
+                    points = new Vector2[3];
+
+                    if (temp != null)
+                    {
+                        for (var i = 0; i < temp.Length; i++)
+                        {
+                            points[i] = temp[i];
+                        }
+                    }
+                }
+
+                return points;
+            }
+
+            set
+            {
+                if (value == null || value.Length < 3) return;
+                points = value;
             }
         }
 
 
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
-            return Polygon.OverlapPoint(pos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
+            return Overlap(pos);
+        }
+
+        public bool Overlap(Vector2 target)
+        {
+            return Util.PolygonOverlap(points, target);
         }
 
 #if UNITY_EDITOR
@@ -31,10 +55,11 @@ namespace UIExtensions
         protected override void Reset()
         {
             base.Reset();
-            var size = rectTransform.sizeDelta;
-            float w = size.x * 0.5f - 1f;
-            float h = size.y * 0.5f - 1f;
-            Polygon.points = new[]
+            var rect = rectTransform;
+            var size = rect.sizeDelta;
+            float w = size.x * 0.5f;
+            float h = size.y * 0.5f;
+            points = new[]
             {
                 new Vector2(-w,-h),
                 new Vector2(w,-h),

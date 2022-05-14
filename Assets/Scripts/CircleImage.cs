@@ -5,36 +5,37 @@ using UnityEngine.UI;
 namespace UIExtensions
 {
     [AddComponentMenu("UI/Extensions/CircleImage")]
-    [RequireComponent(typeof(CircleCollider2D))]
     public class CircleImage : Image
     {
-        private CircleCollider2D circle = null;
+        public bool useCollider = false;
 
-        public CircleCollider2D Circle
+        [SerializeField]
+        private float radius;
+
+        public float Radius
         {
-            get
+            get => radius;
+            set
             {
-                if (null == circle) circle = GetComponent<CircleCollider2D>();
-                return circle;
+                var size = rectTransform.sizeDelta;
+                float max = size.x > size.y ? size.x / 2f : size.y / 2f;
+                radius = Mathf.Clamp(value, 0f, max);
             }
         }
 
 
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
-            return Circle.OverlapPoint(pos);
+            if (!useCollider)
+                return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
+            return Overlap(pos);
         }
 
-#if UNITY_EDITOR
-
-        protected override void Reset()
+        public bool Overlap(Vector2 target)
         {
-            base.Reset();
-            var size = rectTransform.sizeDelta;
-            Circle.radius = size.y / 2f;
+            return Util.CircleOverlap(Vector2.zero, radius, target);
         }
-
-#endif
     }
 }
