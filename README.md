@@ -12,7 +12,7 @@ https://github.com/CiaccoDavide/Unity-UI-Polygon
 
 
 
-![image-20220514004101651](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/1652462093238.gif)
+![image-20220514004101651](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/1652552733196.gif)
 
 
 
@@ -29,7 +29,7 @@ https://github.com/CiaccoDavide/Unity-UI-Polygon
 
 ![image-20220514003622269](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/image-20220514003622269.png)
 
-![image-20220514004101651](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/image-20220514004101651.png)
+![image-20220514004101651](https://github.com/H-J-F/PolygonButton/blob/master/Docs/Images/image-20220515020940.png)
 
 
 
