@@ -15,7 +15,7 @@ namespace UIExtensions
         Texture m_Texture;
 
         public bool fill = true;
-        public bool useCollider = false;
+        public bool useIrregularRaycast = false;
         public float thickness = 5;
 
         [Range(3, 360)]
@@ -212,7 +212,7 @@ namespace UIExtensions
 
         public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
-            if (!useCollider)
+            if (!useIrregularRaycast)
                 return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var point);

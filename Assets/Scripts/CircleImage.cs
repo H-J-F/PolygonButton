@@ -7,7 +7,7 @@ namespace UIExtensions
     [AddComponentMenu("UI/Extensions/CircleImage")]
     public class CircleImage : Image
     {
-        public bool useCollider = false;
+        public bool useIrregularRaycast = false;
 
         [SerializeField]
         private float radius;
@@ -26,7 +26,7 @@ namespace UIExtensions
 
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
-            if (!useCollider)
+            if (!useIrregularRaycast)
                 return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);

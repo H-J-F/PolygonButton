@@ -484,7 +484,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
-  useCollider: 1
   points:
   - {x: 47, y: 0}
   - {x: 53.3, y: 11.02}
@@ -587,16 +586,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290897245}
-  m_LocalRotation: {x: 0, y: 0.3447248, z: 0, w: 0.93870384}
+  m_LocalRotation: {x: 0, y: 0.45632148, z: 0, w: 0.889815}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1079082080}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 40.33, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 54.3, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.7, y: 222.5}
+  m_AnchoredPosition: {x: 326.5, y: 148.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1290897248
@@ -621,7 +620,7 @@ MonoBehaviour:
       m_Calls: []
   m_Texture: {fileID: 0}
   fill: 1
-  useCollider: 1
+  useIrregularRaycast: 1
   thickness: 5
   sides: 6
   rotation: 70
@@ -631,7 +630,7 @@ MonoBehaviour:
   - 1
   - 1
   - 1
-  - 1
+  - 0
   - 1
   points:
   - {x: -17.101011, y: -46.98463}
@@ -639,7 +638,7 @@ MonoBehaviour:
   - {x: 49.240387, y: 8.682411}
   - {x: 17.101004, y: 46.984634}
   - {x: -32.139378, y: 38.302223}
-  - {x: -49.240387, y: -8.682416}
+  - {x: -0, y: -0}
 --- !u!222 &1290897249
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -718,16 +717,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461646766}
-  m_LocalRotation: {x: -0, y: -0.8480481, z: -0, w: 0.52991927}
+  m_LocalRotation: {x: 0, y: 0.41071886, z: 0, w: 0.91176206}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 2.13, z: 1}
   m_Children: []
   m_Father: {fileID: 1079082080}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -116, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 48.5, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 221, y: -183.6}
+  m_AnchoredPosition: {x: 271.6, y: -183.6}
   m_SizeDelta: {x: 107.6663, y: 111.6837}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1461646768
@@ -801,7 +800,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
-  useCollider: 1
   points:
   - {x: 47, y: 0}
   - {x: 53.3, y: 11.02}
@@ -932,7 +930,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
-  useCollider: 1
+  useIrregularRaycast: 1
   radius: 43.8
 --- !u!222 &1752174562
 CanvasRenderer:
@@ -1054,7 +1052,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
-  useCollider: 1
+  useIrregularRaycast: 1
   radius: 44
 --- !u!222 &2021986526
 CanvasRenderer:

@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CustomEditor(typeof(PolygonRawImage))]
+[CanEditMultipleObjects]
 public class PolygonRawImageEditor : Editor
 {
     private SerializedProperty pointsProperty;
@@ -32,7 +33,6 @@ public class PolygonRawImageEditor : Editor
     public void OnSceneGUI()
     {
         PolygonRawImage obj = (PolygonRawImage)target;
-        if (!obj.useCollider) return;
 
         Handles.color = Color.green;
 

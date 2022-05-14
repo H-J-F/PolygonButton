@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CustomEditor(typeof(UIPolygon))]
+[CanEditMultipleObjects]
 public class UIPolygonEditor : Editor
 {
     private Vector3[] points3D;
@@ -12,7 +13,7 @@ public class UIPolygonEditor : Editor
     public void OnSceneGUI()
     {
         UIPolygon obj = (UIPolygon) target;
-        if (!obj.useCollider) return;
+        if (!obj.useIrregularRaycast) return;
 
         Handles.color = Color.green;
 

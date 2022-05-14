@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CustomEditor(typeof(CircleRawImage))]
+[CanEditMultipleObjects]
 public class CircleRawImageEditor : Editor
 {
     private SerializedProperty radiusProperty;
@@ -27,7 +28,7 @@ public class CircleRawImageEditor : Editor
     public void OnSceneGUI()
     {
         CircleRawImage obj = (CircleRawImage)target;
-        if (!obj.useCollider) return;
+        if (!obj.useIrregularRaycast) return;
 
         Handles.color = Color.green;
 
