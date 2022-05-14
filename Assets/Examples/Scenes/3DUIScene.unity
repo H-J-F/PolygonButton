@@ -484,6 +484,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+  useCollider: 1
   points:
   - {x: 47, y: 0}
   - {x: 53.3, y: 11.02}
@@ -800,6 +801,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+  useCollider: 1
   points:
   - {x: 47, y: 0}
   - {x: 53.3, y: 11.02}

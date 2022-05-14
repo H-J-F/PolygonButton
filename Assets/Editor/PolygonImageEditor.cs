@@ -32,6 +32,7 @@ public class PolygonImageEditor : Editor
     public void OnSceneGUI()
     {
         PolygonImage obj = (PolygonImage) target;
+        if (!obj.useCollider) return;
 
         Handles.color = Color.green;
 

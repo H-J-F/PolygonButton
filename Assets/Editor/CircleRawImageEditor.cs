@@ -33,15 +33,14 @@ public class CircleRawImageEditor : Editor
 
         var transform = obj.transform;
         var scale = transform.localScale;
+
         if (Mathf.Abs(scale.x - scale.y) < float.Epsilon)
         {
             Handles.DrawWireDisc(transform.position, transform.forward.normalized, obj.Radius * scale.x);
         }
         else
         {
-            float a = obj.Radius;
-            float b = obj.Radius;
-            EditorUtil.DrawEllipse(points, transform, a, b);
+            EditorUtil.DrawEllipse(points, transform, obj.Radius, obj.Radius);
         }
     }
 }

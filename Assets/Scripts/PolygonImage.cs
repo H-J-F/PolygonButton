@@ -7,6 +7,8 @@ namespace UIExtensions
     [AddComponentMenu("UI/Extensions/PolygonImage")]
     public class PolygonImage : Image
     {
+        public bool useCollider = false;
+
         [SerializeField]
         private Vector2[] points = new Vector2[4];
 
@@ -41,6 +43,9 @@ namespace UIExtensions
 
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
+            if (!useCollider)
+                return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
+
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
             return Overlap(pos);
         }

@@ -7,6 +7,8 @@ using UnityEngine;
 public class CircleImageEditor : Editor
 {
     private SerializedProperty radiusProperty;
+    private Vector3[] points = new Vector3[EditorUtil.ELLIPSE_VERTEX_COUNT];
+
 
     void OnEnable()
     {
@@ -31,6 +33,15 @@ public class CircleImageEditor : Editor
         Handles.color = Color.green;
 
         var transform = obj.transform;
-        Handles.DrawWireDisc(transform.position, transform.forward.normalized, obj.Radius);
+        var scale = transform.localScale;
+
+        if (Mathf.Abs(scale.x - scale.y) < float.Epsilon)
+        {
+            Handles.DrawWireDisc(transform.position, transform.forward.normalized, obj.Radius * scale.x);
+        }
+        else
+        {
+            EditorUtil.DrawEllipse(points, transform, obj.Radius, obj.Radius);
+        }
     }
 }
