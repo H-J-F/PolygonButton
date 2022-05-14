@@ -12,6 +12,8 @@ public static class PolygonUIMenu
 
         var circleImgGo = new GameObject("CircleImage");
         circleImgGo.transform.SetParent(selectGo.transform);
+        circleImgGo.transform.localPosition = Vector3.zero;
+        circleImgGo.transform.localScale = Vector3.one;
         circleImgGo.AddComponent<CircleImage>();
         circleImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(circleImgGo, "new CircleImage");
@@ -29,6 +31,8 @@ public static class PolygonUIMenu
 
         var circleRawImgGo = new GameObject("CircleRawImage");
         circleRawImgGo.transform.SetParent(selectGo.transform);
+        circleRawImgGo.transform.localPosition = Vector3.zero;
+        circleRawImgGo.transform.localScale = Vector3.one;
         circleRawImgGo.AddComponent<CircleRawImage>();
         circleRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(circleRawImgGo, "new CircleRawImage");
@@ -46,6 +50,8 @@ public static class PolygonUIMenu
 
         var polygonImgGo = new GameObject("PolygonImage");
         polygonImgGo.transform.SetParent(selectGo.transform);
+        polygonImgGo.transform.localPosition = Vector3.zero;
+        polygonImgGo.transform.localScale = Vector3.one;
         polygonImgGo.AddComponent<PolygonImage>();
         polygonImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(polygonImgGo, "new PolygonImage");
@@ -63,6 +69,8 @@ public static class PolygonUIMenu
 
         var polygonRawImgGo = new GameObject("PolygonRawImage");
         polygonRawImgGo.transform.SetParent(selectGo.transform);
+        polygonRawImgGo.transform.localPosition = Vector3.zero;
+        polygonRawImgGo.transform.localScale = Vector3.one;
         polygonRawImgGo.AddComponent<PolygonRawImage>();
         polygonRawImgGo.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(polygonRawImgGo, "new PolygonRawImage");
@@ -80,6 +88,8 @@ public static class PolygonUIMenu
 
         var uiPolygon = new GameObject("UI Polygon");
         uiPolygon.transform.SetParent(selectGo.transform);
+        uiPolygon.transform.localPosition = Vector3.zero;
+        uiPolygon.transform.localScale = Vector3.one;
         uiPolygon.AddComponent<UIPolygon>();
         uiPolygon.layer = selectGo == null ? LayerMask.NameToLayer("UI") : selectGo.layer;
         Undo.RegisterCreatedObjectUndo(uiPolygon, "new UI Polygon");
