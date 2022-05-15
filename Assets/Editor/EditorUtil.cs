@@ -1,10 +1,15 @@
-﻿using UnityEditor;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 
 public static class EditorUtil
 {
+    private static MethodInfo extractArrayFromListMethod = null;
     public const int ELLIPSE_VERTEX_COUNT = 90;
+
 
     // 仅用于z轴不旋转的椭圆
     public static void DrawEllipse(Vector3[] points, Transform transform, float a, float b)
@@ -28,5 +33,18 @@ public static class EditorUtil
         }
 
         Handles.DrawPolyLine(points);
+    }
+
+    public static T[] ExtractArrayFromListT<T>(List<T> list)
+    {
+        if (extractArrayFromListMethod == null)
+        {
+            var type = Assembly.Load("UnityEngine").GetType("UnityEngine.NoAllocHelpers");
+            var method = type.GetMethod("ExtractArrayFromListT", BindingFlags.Static | BindingFlags.Public);
+            extractArrayFromListMethod = method.MakeGenericMethod(typeof(T));
+        }
+        
+        var result = extractArrayFromListMethod.Invoke(null, new object[]{ list });
+        return result as T[];
     }
 }

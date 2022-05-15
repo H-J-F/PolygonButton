@@ -7,12 +7,17 @@ using UnityEngine;
 [CanEditMultipleObjects]
 public class UIPolygonEditor : Editor
 {
+    private UIPolygon obj;
     private Vector3[] points3D;
 
 
+    private void OnEnable()
+    {
+        obj = (UIPolygon)target;
+    }
+
     public void OnSceneGUI()
     {
-        UIPolygon obj = (UIPolygon) target;
         if (!obj.useIrregularRaycast) return;
 
         Handles.color = Color.green;

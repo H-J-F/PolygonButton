@@ -1,19 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public static class Util
 {
-    public static bool PolygonOverlap(Vector2[] points, Vector2 target)
+    public static bool PolygonOverlap(IList<Vector2> points, Vector2 target)
     {
         return PolygonOverlap(points, target.x, target.y);
     }
 
     // 可以将该方法移至你的工具类
-    public static bool PolygonOverlap(Vector2[] points, float targetX, float targetY)
+    public static bool PolygonOverlap(IList<Vector2> points, float targetX, float targetY)
     {
         bool result = false;
 
-        for (int i = 0, j = points.Length - 1; i < points.Length; i++)
+        for (int i = 0, j = points.Count - 1; i < points.Count; i++)
         {
             bool betweenY = points[i].y > targetY != points[j].y > targetY;
             if (betweenY)
@@ -39,5 +40,18 @@ public static class Util
     public static bool CircleOverlap(Vector2 center, float radius, float targetX, float targetY)
     {
         return (double) radius * radius > (double) (targetY - center.y) * (targetY - center.y) + (double) (targetX - center.x) * (targetX - center.x);
+    }
+
+    public static void Append<T>(this List<T> list, T item)
+    {
+        var newList = list;
+        list = new List<T>(newList.Count + 1);
+
+        for (var i = 0; i < newList.Count; i++)
+        {
+            list.Add(newList[i]);
+        }
+
+        list.Add(item);
     }
 }

@@ -3,24 +3,25 @@ using UnityEditor;
 using UnityEngine;
 
 
-[CustomEditor(typeof(PolygonImage))]
+[CustomEditor(typeof(PolygonRawImage))]
 [CanEditMultipleObjects]
-public class PolygonImageEditor : Editor
+public class PolygonRawImageEditor : Editor
 {
+    private bool hadSetPoints = false;
+    private PolygonRawImage obj;
     private SerializedProperty pointsProperty;
     private Vector3[] points3D;
 
 
     private void OnEnable()
     {
+        obj = (PolygonRawImage)target;
         pointsProperty = serializedObject.FindProperty("points");
     }
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-
-        PolygonImage obj = (PolygonImage)target;
 
         if (pointsProperty.arraySize < 3)
         {
@@ -32,7 +33,7 @@ public class PolygonImageEditor : Editor
 
     public void OnSceneGUI()
     {
-        PolygonImage obj = (PolygonImage) target;
+        PolygonRawImage obj = (PolygonRawImage)target;
 
         Handles.color = Color.green;
 

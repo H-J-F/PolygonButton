@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,39 +9,20 @@ namespace UIExtensions
     public class PolygonImage : Image
     {
         [SerializeField]
-        private Vector2[] points = new Vector2[4];
+        private List<Vector2> points = new List<Vector2>();
 
-        public Vector2[] Points
+        public List<Vector2> Points
         {
-            get
-            {
-                if (points == null || points.Length < 3)
-                {
-                    var temp = points;
-                    points = new Vector2[3];
-
-                    if (temp != null)
-                    {
-                        for (var i = 0; i < temp.Length; i++)
-                        {
-                            points[i] = temp[i];
-                        }
-                    }
-                }
-
-                return points;
-            }
-
-            set
-            {
-                if (value == null || value.Length < 3) return;
-                points = value;
-            }
+            get => points ??= new List<Vector2>();
+            set => points = value;
         }
 
 
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
+            if (points == null || points.Count <= 0)
+                return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, screenPoint, eventCamera);
+
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out var pos);
             return Overlap(pos);
         }
@@ -50,24 +32,24 @@ namespace UIExtensions
             return Util.PolygonOverlap(points, target);
         }
 
-#if UNITY_EDITOR
-
-        protected override void Reset()
-        {
-            base.Reset();
-            var rect = rectTransform;
-            var size = rect.sizeDelta;
-            float w = size.x * 0.5f;
-            float h = size.y * 0.5f;
-            points = new[]
-            {
-                new Vector2(-w,-h),
-                new Vector2(w,-h),
-                new Vector2(w,h),
-                new Vector2(-w,h)
-            };
-        }
-
-#endif
+// #if UNITY_EDITOR
+//
+//         protected override void Reset()
+//         {
+//             base.Reset();
+//             var rect = rectTransform;
+//             var size = rect.sizeDelta;
+//             float w = size.x * 0.5f;
+//             float h = size.y * 0.5f;
+//             points = new List<Vector2>()
+//             {
+//                 new Vector2(-w,-h),
+//                 new Vector2(w,-h),
+//                 new Vector2(w,h),
+//                 new Vector2(-w,h)
+//             };
+//         }
+//
+// #endif
     }
 }
