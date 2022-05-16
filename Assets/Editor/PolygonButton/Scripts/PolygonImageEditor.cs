@@ -1,4 +1,5 @@
-﻿using EditorExtensions;
+﻿using System.Collections.Generic;
+using EditorExtensions;
 using UIExtensions;
 using UnityEditor;
 using UnityEngine;
@@ -15,18 +16,21 @@ public class PolygonImageEditor : Editor
     private float pointRadius = 0.6f;
     private bool editting = false;
     private bool needsRepaint = false;
+    private List<Vector3> points3D = new List<Vector3>();
 
     private PolygonImage obj;
     private Transform objTrans;
     private Canvas rootCanvas = null;
     private SelectionInfo selectionInfo;
-    private GUIContent editBtnContent = new GUIContent(editBtnTex);
+    private GUIContent editBtnContent;
 
 
     private void Awake()
     {
         if (editBtnTex == null) 
             editBtnTex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Editor/PolygonButton/Textures/EditBtn.png");
+
+        editBtnContent = new GUIContent(editBtnTex);
     }
 
     private void OnEnable()
@@ -37,6 +41,11 @@ public class PolygonImageEditor : Editor
         rootCanvas = canvas == null ? null : canvas.rootCanvas;
         selectionInfo = new SelectionInfo();
         pointRadius = obj.pointRadius * (rootCanvas == null ? 1f : rootCanvas.transform.localScale.x);
+
+        Undo.undoRedoPerformed -= InitPoints3D;
+        Undo.undoRedoPerformed += InitPoints3D;
+
+        InitPoints3D();
     }
 
     public override void OnInspectorGUI()
@@ -63,48 +72,46 @@ public class PolygonImageEditor : Editor
     {
         Event guiEvent = Event.current;
 
-        if (guiEvent.type == EventType.Repaint)
+        switch (guiEvent.type)
         {
-            if (editting) 
+            case EventType.Repaint when editting:
                 DrawWithDisc();
-            else
+                break;
+        
+            case EventType.Repaint:
                 Draw();
+                break;
+        
+            case EventType.Layout:
+                HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+                break;
+        
+            default:
+                HandleInput(guiEvent);
+                if (needsRepaint) HandleUtility.Repaint();
+                break;
         }
-        else if (guiEvent.type == EventType.Layout)
+    }
+
+    private void InitPoints3D()
+    {
+        for (var i = 0; i < obj.Points.Count; i++)
         {
-            HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-        }
-        else
-        {
-            HandleInput(guiEvent);
-            if (needsRepaint)
+            var point = objTrans.TransformPoint(obj.Points[i]);
+            if (i >= points3D.Count)
             {
-                HandleUtility.Repaint();
+                points3D.Add(point);
+            }
+            else
+            {
+                points3D[i] = point;
             }
         }
 
-        // switch (guiEvent.type)
-        // {
-        //     case EventType.Repaint when editting:
-        //         DrawWithDisc();
-        //         break;
-        //
-        //     case EventType.Repaint:
-        //         Draw();
-        //         break;
-        //
-        //     case EventType.Layout:
-        //         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-        //         break;
-        //
-        //     default:
-        //         HandleInput(guiEvent);
-        //         if (needsRepaint)
-        //         {
-        //             HandleUtility.Repaint();
-        //         }
-        //         break;
-        // }
+        for (int i = points3D.Count - 1; i >= obj.Points.Count; i--)
+        {
+            points3D.RemoveAt(i);
+        }
     }
 
     private void HandleInput(Event guiEvent)
@@ -133,6 +140,13 @@ public class PolygonImageEditor : Editor
                     break;
             }
         }
+        else if(guiEvent.modifiers == EventModifiers.Control && guiEvent.button == 0)
+        {
+            if (guiEvent.type == EventType.MouseUp)
+            {
+                HandleControlAndLeftMouseUp();
+            }
+        }
 
         if (!selectionInfo.pointIsSelected)
         {
@@ -144,10 +158,21 @@ public class PolygonImageEditor : Editor
     {
         if (!selectionInfo.mouseIsOverPoint)
         {
-            // TODO: 新增点
+            int newPointIndex = selectionInfo.mouseIsOverLine ? selectionInfo.lineIndex + 1 : obj.Points.Count;
             Undo.RecordObject(obj, "Add PolygonImage Point");
-            obj.Points.Add(obj.transform.InverseTransformPoint(mousePosition));
-            selectionInfo.pointIndex = obj.Points.Count - 1;
+            selectionInfo.pointIndex = newPointIndex;
+            selectionInfo.mouseIsOverPoint = true;
+            selectionInfo.lineIndex = -1;
+            // selectionInfo.mouseIsOverLine = false; Auto call in UpdateMouseOverInfo
+
+            if (newPointIndex == obj.Points.Count)
+            {
+                EditorUtil.AddMappingPoint(objTrans, obj.Points, points3D, mousePosition);
+            }
+            else
+            {
+                EditorUtil.InsertMappingPoint(objTrans, obj.Points, points3D, newPointIndex, mousePosition);
+            }
         }
 
         selectionInfo.pointIsSelected = true;
@@ -159,9 +184,9 @@ public class PolygonImageEditor : Editor
     {
         if (selectionInfo.pointIsSelected)
         {
-            obj.Points[selectionInfo.pointIndex] = objTrans.InverseTransformPoint(selectionInfo.positionAtStartOfDrag);
+            EditorUtil.UpdateMappingPoint(objTrans, obj.Points, points3D, selectionInfo.pointIndex, selectionInfo.positionAtStartOfDrag);
             Undo.RecordObject(obj, "Move Point");
-            obj.Points[selectionInfo.pointIndex] = objTrans.InverseTransformPoint(mousePosition);
+            EditorUtil.UpdateMappingPoint(objTrans, obj.Points, points3D, selectionInfo.pointIndex, mousePosition);
 
             selectionInfo.pointIsSelected = false;
             selectionInfo.pointIndex = -1;
@@ -173,9 +198,18 @@ public class PolygonImageEditor : Editor
     {
         if (selectionInfo.pointIsSelected)
         {
-            obj.Points[selectionInfo.pointIndex] = objTrans.InverseTransformPoint(mousePosition);
+            EditorUtil.UpdateMappingPoint(objTrans, obj.Points, points3D, selectionInfo.pointIndex, mousePosition);
             needsRepaint = true;
         }
+    }
+
+    private void HandleControlAndLeftMouseUp()
+    {
+        // only delete one point
+        if (!selectionInfo.mouseIsOverPoint) return;
+
+        Undo.RecordObject(obj, "Remove Point");
+        EditorUtil.RemoveMappingPoint(obj.Points, points3D, selectionInfo.pointIndex);
     }
 
     private void UpdateMouseOverInfo(Vector3 mousePosition)
@@ -185,7 +219,7 @@ public class PolygonImageEditor : Editor
 
         for (int i = 0; i < obj.Points.Count; i++)
         {
-            if (Vector3.Distance(mousePosition, objTrans.TransformPoint(obj.Points[i])) < pointRadius)
+            if (Vector3.Distance(mousePosition, points3D[i]) < pointRadius)
             {
                 mouseOverPointIndex = i;
                 break;
@@ -199,21 +233,65 @@ public class PolygonImageEditor : Editor
 
             needsRepaint = true;
         }
+
+        if (selectionInfo.mouseIsOverPoint)
+        {
+            selectionInfo.mouseIsOverLine = false;
+            selectionInfo.lineIndex = -1;
+        }
+        else
+        {
+            var count = obj.Points.Count;
+            int mouseOverLineIndex = -1;
+            float closestLineDst = pointRadius;
+
+            for (int i = 0; i < count; i++)
+            {
+                var currentPoint = points3D[i];
+                var nextPoint = points3D[(i + 1) % count];
+                float distFromMouseToLine = HandleUtility.DistancePointLine(mousePosition, currentPoint, nextPoint);
+
+                if (distFromMouseToLine < closestLineDst)
+                {
+                    closestLineDst = distFromMouseToLine;
+                    mouseOverLineIndex = i;
+                }
+            }
+
+            if (selectionInfo.lineIndex != mouseOverLineIndex)
+            {
+                selectionInfo.lineIndex = mouseOverLineIndex;
+                selectionInfo.mouseIsOverLine = mouseOverLineIndex != -1;
+                needsRepaint = true;
+            }
+        }
     }
 
     private void DrawWithDisc()
     {
         pointRadius = obj.pointRadius * (rootCanvas == null ? 1f : rootCanvas.transform.localScale.x);
+        var count = obj.Points.Count;
 
-        for (int i = 0; i < obj.Points.Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            Handles.color = Color.yellow;
-            Vector3 start = objTrans.TransformPoint(obj.Points[i]);
-            Vector3 end = objTrans.TransformPoint(obj.Points[(i + 1) % obj.Points.Count]);
-            Handles.DrawDottedLine(start, end, 4);
-            
+            Vector3 start = points3D[i];
+            Vector3 end = points3D[(i + 1) % count];
+
+            Handles.color = i == selectionInfo.lineIndex ? Color.green : Color.yellow;
+            if (i == selectionInfo.lineIndex)
+            {
+                Handles.DrawLine(start, end);
+            }
+            else
+            {
+                Handles.DrawDottedLine(start, end, 4);
+            }
+        }
+
+        for (int i = 0; i < count; i++)
+        {
             Handles.color = i != selectionInfo.pointIndex ? Color.yellow : (selectionInfo.pointIsSelected ? Color.cyan : Color.green);
-            Handles.DrawSolidDisc(start, objTrans.forward, pointRadius);
+            Handles.DrawSolidDisc(points3D[i], objTrans.forward, pointRadius);
         }
 
         needsRepaint = false;
@@ -222,11 +300,12 @@ public class PolygonImageEditor : Editor
     private void Draw()
     {
         Handles.color = Color.yellow;
+        var count = obj.Points.Count;
 
         for (int i = 0; i < obj.Points.Count; i++)
         {
-            Vector3 start = objTrans.TransformPoint(obj.Points[i]);
-            Vector3 end = objTrans.TransformPoint(obj.Points[(i + 1) % obj.Points.Count]);
+            Vector3 start = points3D[i];
+            Vector3 end = points3D[(i + 1) % count];
             Handles.DrawLine(start, end);
         }
 

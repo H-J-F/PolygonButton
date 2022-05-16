@@ -8,7 +8,7 @@ namespace UIExtensions
     [AddComponentMenu("UI/Extensions/PolygonImage")]
     public class PolygonImage : Image
     {
-        public float pointRadius = 0.6f;
+        public float pointRadius = 0.8f;
 
         [SerializeField]
         private List<Vector2> points = new List<Vector2>();
@@ -33,25 +33,5 @@ namespace UIExtensions
         {
             return Util.PolygonOverlap(Points, target);
         }
-
-// #if UNITY_EDITOR
-//
-//         protected override void Reset()
-//         {
-//             base.Reset();
-//             var rect = rectTransform;
-//             var size = rect.sizeDelta;
-//             float w = size.x * 0.5f;
-//             float h = size.y * 0.5f;
-//             points = new List<Vector2>()
-//             {
-//                 new Vector2(-w,-h),
-//                 new Vector2(w,-h),
-//                 new Vector2(w,h),
-//                 new Vector2(-w,h)
-//             };
-//         }
-//
-// #endif
     }
 }

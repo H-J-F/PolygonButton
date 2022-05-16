@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -46,5 +45,29 @@ public static class EditorUtil
         
         var result = extractArrayFromListMethod.Invoke(null, new object[]{ list });
         return result as T[];
+    }
+
+    public static void AddMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, Vector3 point)
+    {
+        points.Add(convertTrans.InverseTransformPoint(point));
+        points3D.Add(point);
+    }
+
+    public static void InsertMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, int index, Vector3 point)
+    {
+        points.Insert(index, convertTrans.InverseTransformPoint(point));
+        points3D.Insert(index, point);
+    }
+
+    public static void UpdateMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, int index, Vector3 point)
+    {
+        points[index] = convertTrans.InverseTransformPoint(point);
+        points3D[index] = point;
+    }
+
+    public static void RemoveMappingPoint(List<Vector2> points, List<Vector3> points3D, int index)
+    {
+        points.RemoveAt(index);
+        points3D.RemoveAt(index);
     }
 }
