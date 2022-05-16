@@ -48,6 +48,13 @@ public class PolygonRawImageEditor : Editor
         InitPoints3D();
     }
 
+    private void OnDisable()
+    {
+        editting = false;
+        UpdateHandles();
+        Undo.undoRedoPerformed -= InitPoints3D;
+    }
+
     public override void OnInspectorGUI()
     {
         EditorGUILayout.BeginHorizontal();
@@ -59,6 +66,8 @@ public class PolygonRawImageEditor : Editor
                 SceneView.RepaintAll();
                 editting = tempBool;
                 needsRepaint = true;
+
+                UpdateHandles();
             }
         }
         EditorGUILayout.EndHorizontal();
@@ -91,6 +100,8 @@ public class PolygonRawImageEditor : Editor
                 if (needsRepaint) HandleUtility.Repaint();
                 break;
         }
+
+        Debug.Log(guiEvent.type);
     }
 
     private void InitPoints3D()
@@ -114,9 +125,23 @@ public class PolygonRawImageEditor : Editor
         }
     }
 
+    private void UpdateHandles()
+    {
+        Tools.hidden = editting;
+        objTrans.hideFlags = editting ? HideFlags.NotEditable : HideFlags.None;
+    }
+
     private void HandleInput(Event guiEvent)
     {
-        if (!editting) return;
+        if (!editting)
+        {
+            if (guiEvent.type == EventType.MouseUp && guiEvent.button == 0 && objTrans.hasChanged)
+            {
+                InitPoints3D();
+                objTrans.hasChanged = false;
+            }
+            return;
+        }
 
         Ray mouseRay = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition);
         Plane plane = new Plane(objTrans.forward, objTrans.position);
@@ -304,8 +329,8 @@ public class PolygonRawImageEditor : Editor
 
         for (int i = 0; i < obj.Points.Count; i++)
         {
-            Vector3 start = points3D[i];
-            Vector3 end = points3D[(i + 1) % count];
+            Vector3 start = objTrans.TransformPoint(obj.Points[i]);
+            Vector3 end = objTrans.TransformPoint(obj.Points[(i + 1) % count]);
             Handles.DrawLine(start, end);
         }
 
