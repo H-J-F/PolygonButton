@@ -63,6 +63,7 @@
     <Compile Include="Assets\Editor\PolygonButton\Scripts\PolygonUIMenu.cs" />
     <Compile Include="Assets\Editor\PolygonButton\Scripts\CircleRawImageEditor.cs" />
     <Compile Include="Assets\Editor\EditorUtil.cs" />
+    <Compile Include="Assets\Editor\PolygonButton\Scripts\SelectionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
