@@ -20,7 +20,7 @@ public class UIPolygonEditor : Editor
     {
         if (!obj.useIrregularRaycast) return;
 
-        Handles.color = Color.green;
+        Handles.color = Color.yellow;
 
         GetPoints(obj.Points, obj.rectTransform);
         Handles.DrawAAPolyLine(points3D);

@@ -31,7 +31,7 @@ public class CircleImageEditor : Editor
         CircleImage obj = (CircleImage) target;
         if (!obj.useIrregularRaycast) return;
 
-        Handles.color = Color.green;
+        Handles.color = Color.yellow;
 
         var transform = obj.transform;
         var scale = transform.localScale;
