@@ -100,8 +100,6 @@ public class PolygonImageEditor : Editor
                 if (needsRepaint) HandleUtility.Repaint();
                 break;
         }
-
-        Debug.Log(guiEvent.type);
     }
 
     private void InitPoints3D()
