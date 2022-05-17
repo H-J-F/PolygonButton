@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace UIExtensions
 {
     [AddComponentMenu("UI/Extensions/PolygonRawImage")]
+    [RequireComponent(typeof(RectTransform))]
     public class PolygonRawImage : RawImage, ICanvasRaycastFilter
     {
         public float pointRadius = 0.8f;

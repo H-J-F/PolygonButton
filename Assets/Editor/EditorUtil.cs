@@ -47,27 +47,28 @@ public static class EditorUtil
         return result as T[];
     }
 
-    public static void AddMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, Vector3 point)
+    public static Vector2 InverseTransformPoint(RectTransform rectTrans, Vector3[] corners, Vector3 mousePos)
     {
-        points.Add(convertTrans.InverseTransformPoint(point));
-        points3D.Add(point);
+        var localPos = rectTrans.InverseTransformPoint(mousePos);
+        rectTrans.GetLocalCorners(corners);
+
+        localPos.x = localPos.x < corners[0].x ? corners[0].x : localPos.x;
+        localPos.x = localPos.x > corners[2].x ? corners[2].x : localPos.x;
+        localPos.y = localPos.y < corners[0].y ? corners[0].y : localPos.y;
+        localPos.y = localPos.y > corners[2].y ? corners[2].y : localPos.y;
+
+        return localPos;
     }
 
-    public static void InsertMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, int index, Vector3 point)
+    public static void OnPivotChangedAdjust(RectTransform rectTrans, Vector2 originPivot, List<Vector2> points)
     {
-        points.Insert(index, convertTrans.InverseTransformPoint(point));
-        points3D.Insert(index, point);
-    }
+        var deltaPivot = rectTrans.pivot - originPivot;
+        var size = rectTrans.sizeDelta;
+        Vector2 deltaDrift = new Vector2(deltaPivot.x * size.x, deltaPivot.y * size.y);
 
-    public static void UpdateMappingPoint(Transform convertTrans, List<Vector2> points, List<Vector3> points3D, int index, Vector3 point)
-    {
-        points[index] = convertTrans.InverseTransformPoint(point);
-        points3D[index] = point;
-    }
-
-    public static void RemoveMappingPoint(List<Vector2> points, List<Vector3> points3D, int index)
-    {
-        points.RemoveAt(index);
-        points3D.RemoveAt(index);
+        for (int i = 0; i < points.Count; i++)
+        {
+            points[i] = new Vector2(points[i].x - deltaDrift.x, points[i].y - deltaDrift.y);
+        }
     }
 }

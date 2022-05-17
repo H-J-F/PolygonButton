@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace UIExtensions
 {
     [AddComponentMenu("UI/Extensions/PolygonImage")]
+    [RequireComponent(typeof(RectTransform))]
     public class PolygonImage : Image
     {
         public float pointRadius = 0.8f;
