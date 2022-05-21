@@ -41,17 +41,4 @@ public static class Util
     {
         return (double) radius * radius > (double) (targetY - center.y) * (targetY - center.y) + (double) (targetX - center.x) * (targetX - center.x);
     }
-
-    // public static void Append<T>(this List<T> list, T item)
-    // {
-    //     var newList = list;
-    //     list = new List<T>(newList.Count + 1);
-    //
-    //     for (var i = 0; i < newList.Count; i++)
-    //     {
-    //         list.Add(newList[i]);
-    //     }
-    //
-    //     list.Add(item);
-    // }
 }
