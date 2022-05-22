@@ -56,12 +56,12 @@
     <Analyzer Include="D:\Visual Studio\Visual Studio 2019\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PolygonImage.cs" />
-    <Compile Include="Assets\Scripts\CircleImage.cs" />
-    <Compile Include="Assets\Scripts\PolygonRawImage.cs" />
-    <Compile Include="Assets\Scripts\UIPolygon.cs" />
-    <Compile Include="Assets\Scripts\Util.cs" />
-    <Compile Include="Assets\Scripts\CircleRawImage.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\PolygonImage.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\CircleImage.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\PolygonRawImage.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\UIPolygon.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\Util.cs" />
+    <Compile Include="Assets\PolygonButton\Scripts\CircleRawImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -30,10 +30,10 @@ public class PolygonImageEditor : Editor
     private void Awake()
     {
         if (editBtnTex == null) 
-            editBtnTex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Editor/PolygonButton/Textures/EditBtn.png");
+            editBtnTex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/PolygonButton/Editor/Textures/EditBtn.png");
 
         if (adjustBtnTex == null)
-            adjustBtnTex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Editor/PolygonButton/Textures/AdjustBtn.png");
+            adjustBtnTex = AssetDatabase.LoadAssetAtPath<Texture>("Assets/PolygonButton/Editor/Textures/AdjustBtn.png");
 
         editBtnContent = new GUIContent(editBtnTex);
         adjustBtnContent = new GUIContent(adjustBtnTex);

@@ -56,14 +56,17 @@
     <Analyzer Include="D:\Visual Studio\Visual Studio 2019\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\CircleImageEditor.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\UIPolygonEditor.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\PolygonRawImageEditor.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\PolygonImageEditor.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\PolygonUIMenu.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\CircleRawImageEditor.cs" />
-    <Compile Include="Assets\Editor\EditorUtil.cs" />
-    <Compile Include="Assets\Editor\PolygonButton\Scripts\SelectionInfo.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\CircleImageEditor.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\SelectionInfo.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\UIPolygonEditor.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\PolygonRawImageEditor.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\PolygonImageEditor.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\PolygonUIMenu.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\Scripts\CircleRawImageEditor.cs" />
+    <Compile Include="Assets\PolygonButton\Editor\EditorUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\AssetStoreTools\Editor\AssetStoreTools.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -320,6 +323,9 @@
     </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.15\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
+    <Reference Include="AssetStoreTools">
+      <HintPath>Assets\AssetStoreTools\Editor\AssetStoreTools.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
