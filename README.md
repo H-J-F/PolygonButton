@@ -35,7 +35,11 @@ https://github.com/CiaccoDavide/Unity-UI-Polygon
 
 ### 注意事项：
 
-1. 在Canvas的Overlay模式下，UI的Z坐标最好设置为大于等于0，否则会出现UI的部分区域射线检测不成功的情况，根据测试结果来看，应该是背离鼠标的射线起点了。
-2. 如果UI仅仅做水平或垂直翻转，不要改变欧拉角为180°，而是修改X轴或Y轴的缩放为-1，否则会射线检测失败（不检测UI背面）。
-3. 在3D UI模式下，也就是Canvas是World Space模式时，UI可能有旋转，此时可能摄像机看到的是UI的背面，尽管没有旋转至180°，也会导致射线检测失败，此时要把Canvas的Graphic Raycaster组件取消勾选Ignore Reversed Graphics，这样无论UI如何旋转，都能正确检测到。
-4. 如果UI有旋转，且摄像机为透视摄像机，则3D UI下的RectMask2D裁剪可能不是矩形的，并且碰撞检测区域也会不适配，需要改用Mask才会得到正确的裁剪和射线检测区域。
+1.本插件不使用 Collider2D 组件。
+2.自定义和编辑 PolygonButton 的光线投射区域。 Ctrl + 鼠标左键向下删除一个点。
+3.支持3D UI、UI旋转、Mask和RectMask2D。
+4.使用“Screen-Space - Overlay”渲染模式时，UI位置的Z坐标不小于0。
+5.当UI相机的Projection为“Perspective”且Canvas的渲染模式为“World Space”。或“Camera”时，建议您使用Mask而不是RectMask2D。 在这种情况下，RectMask2D 是不准确的。
+6.使用 3D UI 时，您的相机可能会看到 UI 的反面，您应该打开附加到 Canvas 的“Graphic Raycaster”组件的“Ignore Reversed Graphics”切换开关。
+7.同时支持Github上UI-Extensions的UI Polygon组件，我优化了UI Polygon，同时使PolygonButton支持UI Polygon。
+8.如果UI仅仅做水平或垂直翻转，不要改变欧拉角为180°，而是修改X轴或Y轴的缩放为-1，否则会射线检测失败（不检测UI背面）。
